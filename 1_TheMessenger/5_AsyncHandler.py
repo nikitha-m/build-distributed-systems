@@ -33,13 +33,15 @@ class Node:
 
 def main():
     node = Node()
-     
+    threads = []
     for line in sys.stdin:
         message = json.loads(line)
         
-        result = {}
         t = threading.Thread(target=node.handle_message, args=(message,))
         t.start()
-
+        threads.append(t)
+        
+    for t in threads:
+        t.join()
 if __name__ == "__main__":
     main()
